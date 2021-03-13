@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.example.newstart.firstmodule.dao.FirstModuleDao">
+   
+    <!-- 新增信息 -->
+    <insert id="addMessage" parameterType="com.example.newstart.firstmodule.entity.FirstModuleInfo">
+        insert into t_one
+        (
+        goods_name)
+        values
+        (
+         #{goodsName}
+        )
+    </insert>
+
+    <!--修改商品信息-->
+    <update id="updateGoods" parameterType="com.example.newstart.firstmodule.entity.FirstModuleInfo">
+       update t_one
+       set
+        goods_name = #{goodsName}
+       where id = #{id}
+    </update>
+
+    <!--商品列表-->
+    <select id="listGoods" parameterType="String" resultType="com.example.newstart.firstmodule.entity.FirstModuleInfo">
+        select
+        id,
+        goods_name
+        from  t_one
+        <if test = "goodsName!=null and goodsName!= ''">
+            where  goods_name like concat('%', #{goodsName}, '%')
+        </if>
+        order by id asc
+    </select>
+
+    <!--删除商品-->
+    <delete id="deleteGoods" parameterType="com.example.newstart.firstmodule.entity.FirstModuleInfo">
+        delete from
+          t_one
+        where id in
+        <foreach item="id" index="index" collection="listCode" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+</mapper>
